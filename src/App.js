@@ -47,24 +47,34 @@ import Counter from './Counter';
 // 	<>
 // 	</>
 // )
-	
+
 // }
 
 class App extends Component {
 
-	state = {
-		count:0,
-		test:"Test State"
+	// state = {
+	// 	count: 0,
+	// 	test: "Test State",
+	// 	isShow: true
+	// }
+
+	constructor(prop){
+	console.log("1")
+		super(prop)
+		this.state = {
+			count : 0,
+			isShow: true
+		}
+		this.handleClickDecreMent = this.handleClickDecreMent.bind(this)
+
+	}
+	componentDidMount(){
+		console.log('App componentDidMount run')
 	}
 
-	// constructor(prop){
-	// 	super(prop)
-	// 	this.state = {
-	// 		count : 0
-	// 	}
-	// 	this.handleClickDecreMent = this.handleClickDecreMent.bind(this)
-
-	// }
+	componentDidUpdate(){
+		console.log('App componentDidUpdate run')
+	}
 
 	// handleClickDecreMent(){
 	// 	console.log(this)
@@ -72,21 +82,29 @@ class App extends Component {
 	// }
 
 	handleClickDecreMent = () => {
-		this.setState({count:this.state.count-1})
+		this.setState({ count: this.state.count - 1 })
 	}
 
-	render(){
-	const {count} =	this.state
-	console.log(this.state)
+	render() {
+		console.log("2")
+		const { count } = this.state
+		// console.log(this.state)
 		return <div className='App'>
-			<Counter count={count} title="Counter App" />
-			<button onClick={() => this.setState({count:this.state.count+1})}>+</button>
-			<button onClick={this.handleClickDecreMent}>-</button>
-			<button onClick={() => this.setState({count:0})}>Reset</button>
+			<h1>Counter App</h1>
+			<div>
+				<button onClick={() => this.setState({isShow: !this.state.isShow})}>Toggle</button>
+			</div>
+
+			{this.state.isShow ? <><Counter count={count} title="Counter App" />
+				<button onClick={() => this.setState({ count: this.state.count + 1 })}>+</button>
+				<button onClick={this.handleClickDecreMent}>-</button>
+				<button onClick={() => this.setState({ count: count - count })}>Reset</button></> : null}
 		</div>
 	}
 
 }
 
 export default App
+
+
 
