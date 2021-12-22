@@ -1,43 +1,27 @@
 import { useState } from "react";
-// import ToDoItem from "./ToDoItem";
+import { useContext } from "react/cjs/react.development";
+import { ToDoListContext } from "../contexts/ToDoListContext";
 
-function EditToDo({ closeEditForm, toDoItem: { id, title }, updateToDo }) {
-	const [input, setInput] = useState(title);
-	const [error, setError] = useState("");
-	// const handleChange = (e) => {
-	// 	setInput(e.target.value);
-	// 	console.log(props.toDoItem.title);
-	// 	console.log(e.target.value);
-	// 	props.EditToDo(props.toDoItem.id, input);
-	// };
-	const handleSubmit = (e) => {
+function EditToDo({ cancelEdit ,title:oldTitle, id }) {
+	const [title, setTitle] = useState(oldTitle)
+	const { updateToDo } = useContext(ToDoListContext)
+
+	const handleSubmitForm = e => {
 		e.preventDefault();
-		if (input === "") {
-			return setError("Title is required.");
-		}
-		updateToDo(id, { title: input });
-		closeEditForm();
-	};
+		updateToDo(id, { title : title })
+		cancelEdit()
+	}
+
 	return (
-		<form className="flex-grow-1" onSubmit={handleSubmit}>
+		<form className="flex-grow-1" onSubmit={handleSubmitForm}>
 			<div className="input-group">
-				<input
-					type="text"
-					className={`form-control rounded-0 ${error ? "is-valid" : ""}`}
-					value={input}
-					onChange={(e) => setInput(e.target.value)}
-				></input>
+				<input type="text" className={`form-control rounded-0 `} value={title} onChange={e => setTitle(e.target.value)} />
 				<button className="btn btn-primary rounded-0" type="submit">
 					<i className="far fa-edit"></i>
 				</button>
-				<button
-					className="btn btn-danger rounded-0"
-					type="button"
-					onClick={closeEditForm}
-				>
+				<button className="btn btn-danger rounded-0" type="button"  onClick={() => cancelEdit()}>
 					<i className="fas fa-times"></i>
 				</button>
-				{error && <div className="invalid-feedback">{error}</div>}
 			</div>
 		</form>
 	);

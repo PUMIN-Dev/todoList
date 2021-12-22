@@ -1,18 +1,16 @@
+import { useContext } from "react/cjs/react.development";
+import { ToDoListContext } from "../contexts/ToDoListContext";
+
 import ToDoItem from "./ToDoItem";
 
-function ToDoList(props) {
+function ToDoList() {
+	const { toDoList, setToDoList } = useContext(ToDoListContext);
+
 	return (
 		<div className="shadow">
 			<ul className="list-group rounded-0">
-				{props.toDoList.map((item) => (
-					<ToDoItem
-						toDoItem={item}
-						key={item.id}
-						deleteToDo={props.deleteToDo}
-						updateToDo={props.updateToDo}
-						editToDo={props.editToDo}
-						setToDoList={props.setToDoList}
-					/>
+				{toDoList.map(item => (
+					<ToDoItem key={item.id} todo={item} />
 				))}
 			</ul>
 		</div>

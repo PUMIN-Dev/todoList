@@ -1,34 +1,29 @@
-import { useState } from "react";
+import axios from "axios";
+import { useContext, useState, useEffect } from "react";
+import { ToDoListContext } from "../contexts/ToDoListContext";
 
-function AddToDo(props) {
+function AddToDo() {
+	const { addToDo } = useContext(ToDoListContext);
 	const [title, setTitle] = useState("");
-	const [error, setError] = useState("");
-	const handleChange = (e) => {
-		setTitle(e.target.value);
-	};
-	const handleSubmit = (e) => {
+
+	const handleSubmitForm = async e => {
 		e.preventDefault();
-		if (title.trim() === "") {
-			return setError("Title is required.");
-		}
-		props.createToDo(title);
-		setError("");
-		setTitle("");
+		addToDo({ title, completed: false });
 	};
+
 	return (
 		<div>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmitForm}>
 				<div className="input-group">
 					<input
 						type="text"
-						className={`form-control round-0 ${error && "is-invalid"}`}
 						value={title}
-						onChange={handleChange}
+						onChange={e => setTitle(e.target.value)}
+						className={`form-control round-0 `}
 					/>
 					<button className="btn btn-success round-0">
 						<i className="fas fa-plus"></i>
 					</button>
-					{error && <div className="invalid-feedback">{error}</div>}
 				</div>
 			</form>
 		</div>
