@@ -6,11 +6,14 @@
 // 	);
 // }
 
-function RemainingMessage() {
+function RemainingMessage(props) {
+
+	const length = props.addTodo.filter((el) => { return el.completed === false } )
+
 	return (
-		<div className="mt-4 py-3 text-center bg-dark text-white">	2 of 22 Remaining </div>
-		
-		
+		<div className="mt-4 py-3 text-center bg-dark text-white">	{length.length} of {props.addTodo.length} Remaining </div>
+
+
 	);
 }
 

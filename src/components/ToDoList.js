@@ -19,11 +19,14 @@ import ToDoItem from "./ToDoItem";
 // 	);
 // }
 
-function ToDoList() {
+function ToDoList(props) {
+	// console.log(props.initialToDoList)
 	return (
 		<div className="shadow">
 			<ul className="list-group rounded-0">
-				<ToDoItem />
+				{props.addTodo.map((el) => <ToDoItem key={el.id} id={el.id} title={el.title} completed={el.completed} 
+				deleteList={props.deleteList} changeCompleted = {props.changeCompleted} />)}
+				
 			</ul>
 		</div>
 	);

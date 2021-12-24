@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+
 
 // function TextFilter({ setSearchText }) {
 //  const [input, setInput] = useState("");
+
+import { useState } from "react";
 
 //  useEffect(() => {
 //   const timeoutId = setTimeout(() => {
@@ -34,12 +36,18 @@ import { useState, useEffect } from "react";
 //  );
 // }
 
-function TextFilter(){
+function TextFilter(props){
+
+   
+    const handeleSearchText = (e) => {
+       props.setSearchTerm(prev => ({...prev, text : e.target.value}))
+       
+    }
+    // console.log(props.text)
     return(
         <div className="input-group">
-            <input type="text" className="form-control rounded-0" />
+            <input type="text" className="form-control rounded-0" value={props.text} onChange={handeleSearchText} />
             <button  className="btn btn-secondary rounded-0" > <i className="fas fa-times"> </i> </button>
-
         </div>
     )
 }

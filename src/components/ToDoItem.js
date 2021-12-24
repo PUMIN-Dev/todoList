@@ -1,5 +1,7 @@
+
+// import EditToDo from "./EditToDo";
+
 import { useState } from "react";
-import EditToDo from "./EditToDo";
 
 // function ToDoItem(props) {
 // 	const [editMode, setEditMode] = useState(false);
@@ -38,7 +40,7 @@ import EditToDo from "./EditToDo";
 // 					<div className="btn-group">
 // 						<button
 // 							className="btn btn-info -btn-info rounded-0"
-// 							onClick={handleClickToggle}
+// 								
 // 						>
 // 							<i
 // 								className={`fas fa-toggle-${
@@ -72,17 +74,31 @@ import EditToDo from "./EditToDo";
 // 	);
 // }
 
-function ToDoItem() {
+function ToDoItem(props) {
+
+	const [completed, setCompleted] = useState(!props.completed)
+
+	const handledDelete = () => {
+	
+		{props.deleteList(props.id)}
+	}
+
+	const handledChangeCompleted = () => {
+	
+		setCompleted(!completed)
+		props.changeCompleted(props.id, completed)
+	}
+	// console.log(props.changeCompleted)
 
 	return (
-		<li className="list-group-item d-flex justify-content-between aligh-items-center py-3 bd-callout bd-callout-success">
+		<li className={`list-group-item d-flex justify-content-between aligh-items-center py-3 bd-callout bd-callout-${props.completed? "success":"warning"}`}>
 			
 				{/* <EditToDo/> */}
-				<span >Do something</span>
+				<span >{props.title}</span>
 
 				<div className="btn-group">
-						<button className="btn btn-info -btn-info rounded-0"> <i className="fas fa-toggle-on"></i> </button>
-						<button className="btn btn-danger -btn-info rounded-0"> <i className="fas fa-trash-alt"></i> </button>
+						<button className="btn btn-info -btn-info rounded-0" onClick={handledChangeCompleted}> <i className={`fas fa-toggle-${props.completed? 'on':'off'}`}></i> </button>
+						<button className="btn btn-danger -btn-info rounded-0" onClick={handledDelete}> <i className="fas fa-trash-alt"></i> </button>
 						
 					</div>
 				

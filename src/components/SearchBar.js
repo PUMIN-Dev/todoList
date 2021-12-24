@@ -9,18 +9,21 @@ import TextFilter from "./TextFilter";
 // 				setSearchText={props.setSearchText}
 // 			/>
 // 			<StatusFilter
-// 				setSearchStatus={props.setSearchStatus}
-// 				searchStatus={props.searchStatus}
+				// setSearchStatus={props.setSearchStatus}
+				// searchStatus={props.searchStatus}
 // 			/>
 // 		</div>
 // 	);
+
 // }
 
-function SearchBar() {
+function SearchBar(props) {
+
+	// console.log(props)
 	return (
 		<div className="mt-4 d-flex">
-			<TextFilter/>
-			<StatusFilter/>
+			<TextFilter setSearchTerm = {props.setSearchTerm} text = {props.searchTerm.text} />
+			<StatusFilter searchStatus={props.searchStatus} setSearchStatus={props.setSearchStatus}  />
 		</div>
 	);
 }

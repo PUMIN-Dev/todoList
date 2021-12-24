@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+
 import { v4 as uuidv4 } from "uuid";
-import AddToDo from "./components/AddToDo.js";
-import SearchBar from "./components/SearchBar";
+import AddToDo from "./components/AddToDo";
+import SearchBar from "./components/SearchBar"
 import RemainingMessage from "./components/RemainingMessage";
 import ToDoList from "./components/ToDoList";
-import axios from "axios"
+import { useState } from "react"
 
 // import EditToDo from "./components/EditToDo.js";
 
@@ -22,7 +22,7 @@ import axios from "axios"
 
 // 	const [toDoList, setToDoList] = useState([]);
 // 	const [searchText, setSearchText] = useState("");
-// 	const [searchStatus, setSearchStatus] = useState("");
+	// const [searchStatus, setSearchStatus] = useState("");
 // 	// FUNCTION DECLARATION
 
 // 	useEffect(() => {
@@ -88,11 +88,11 @@ import axios from "axios"
 
 // 		const pendingToDoList = toDoList.filter((item) => !item.completed);
 
-// 		const filteredToDoList = toDoList.filter(
-// 			(item) =>
-// 				item.title.toLowerCase().includes(searchText.toLowerCase()) &&
-// 				(searchStatus === "" || item.completed === searchStatus)
-// 		);
+		// const filteredToDoList = toDoList.filter(
+		// 	(item) =>
+		// 		item.title.toLowerCase().includes(searchText.toLowerCase()) &&
+		// 		(searchStatus === "" || item.completed === searchStatus)
+		// );
 
 // 		//////Edit////
 // 		const editToDo = (id, value) => {
@@ -109,8 +109,8 @@ import axios from "axios"
 // 				<div className="mt-5 mx-auto mw-xs">
 // 					<AddToDo createToDo={createToDo} />
 // 					<SearchBar
-// 						searchStatus={searchStatus}
-// 						setSearchStatus={setSearchStatus}
+						// searchStatus={searchStatus}
+						// setSearchStatus={setSearchStatus}	
 // 						searchText={searchText}
 // 						setSearchText={setSearchText}
 // 					/>
@@ -136,15 +136,64 @@ const initialToDoList = [
 	{ id: uuidv4(), title: "Dinner with Boss", completed: true },
 ];
 
-function App(props) {
+
+
+function App() {
+
+	const [addTodo, setAddTodo] = useState(initialToDoList)
+	const [searchTerm, setSearchTerm] = useState({text : '',status:''})
+	const [searchStatus, setSearchStatus] = useState("")
+
+
+	const addNewList = (title) => {
+		const clone = [...addTodo]
+		const list = [{ id: uuidv4(), title: title, completed: false }, ...clone]
+		setAddTodo(list)
+	}
+
+	const deleteList = (id) => {
+		const idx = addTodo.findIndex((el) => el.id === id)
+		const newList = [...addTodo]
+		newList.splice(idx, 1)
+		setAddTodo(newList)
+	}
+
+	const changeCompleted = (id, completed) => {
+		// console.log(completed)
+		const a = { ...completed }
+		const idx = addTodo.findIndex((el) => el.id === id)
+		const newList = [...addTodo]
+		newList[idx] = { ...newList[idx], completed: completed }
+		// console.log(newList[idx])
+		setAddTodo(newList)
+	}
+
+	
+		const showTodo = addTodo.filter(el =>
+		 el.title.toLocaleLowerCase().includes(searchTerm.text.toLocaleLowerCase()) && (searchStatus === '' || el.completed === searchStatus ) )  
+		 	
+		
+
+	
+	// const clickStatusFilter = (status) => {
+	// 	const newShow = [...addTodo]
+	// 	if (status === 'all') {
+	// 		setAddTodo(newShow)
+	// 	} 
+	// 	if (status === 'done') {
+	// 		newShow = newShow.
+	// 		setAddTodo(newShow)
+	// 	} 
+	// }
+
 
 	return (
 		<div className="container">
 			<div className="mt-5 mx-auto mw-xs">
-				<AddToDo />
-				<SearchBar />
-				<RemainingMessage />
-				<ToDoList />
+				<AddToDo addNewList={addNewList} />
+				<SearchBar setSearchTerm = {setSearchTerm} searchTerm ={searchTerm} searchStatus={searchStatus} setSearchStatus={setSearchStatus}/>
+				<RemainingMessage addTodo={addTodo} />
+				<ToDoList addTodo={showTodo} deleteList={deleteList} changeCompleted={changeCompleted} />
 			</div>
 		</div>
 	);
